@@ -1,5 +1,17 @@
 # Simple Web Application
 
+Share links.
+
+### Links
+
+ - `/home`: recent link
+ - `/<site>`: links on this site
+
+### User Priv
+ 
+ * Share links
+ * Vote links (_once a link_)
+
 ## Tools
 
  - [Django v2](https://www.djangoproject.com/)

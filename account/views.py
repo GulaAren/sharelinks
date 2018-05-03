@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
@@ -11,7 +10,7 @@ def daftar(request):
 		if form.is_valid():
 			user = form.save()
 			auth_login(request, user)
-			return redirect('home')
+			return redirect('post:home')
 
 	form = UserCreationForm()
 	return render(request, 'daftar.html' ,{'form':form})
@@ -32,5 +31,4 @@ def login(request):
 
 def logout(request):
 	auth_logout(request)
-	if not request.user.is_authenticated:
-		return redirect('home')
+	return redirect('post:home')

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Domains: {{ site }}{% endblock %}
+
+{% block content %}
+<div class="container">
+	{% include 'includes/navbar.html' %}
+</div>
+<section class="section">
+	<div class="container">
+	{% for link in site.link_set.all %}
+	<div class="columns">
+		<div class="column is-2">
+		{% if user.is_authenticated %}
+			<a href="{% url 'post:vote' link.id %}?next={{ request.path }}">{{ link.score }}</a>
+		{% else %}
+			{{ link.score }}
+		{% endif %}
+		</div>
+		<div class="column">
+			<a href="{{ link.content }}">{{ link }}</a>
+		</div>
+		<div class="column is-3">
+		{% if link.author %}
+			<em>by</em> <a href="#">{{ link.author }}</a>
+		{% endif %}
+		</div>
+	</div>
+	{% endfor %}
+</section>
+{% endblock %}

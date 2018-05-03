@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Link
+from .models import Link, Site
 
 
 class LinkAdmin(admin.ModelAdmin):
-	fields = ['title', 'author', 'site', 'content']
+	fields = ['title', 'author', 'content']
 
 admin.site.register(Link, LinkAdmin)
+admin.site.register(Site)
