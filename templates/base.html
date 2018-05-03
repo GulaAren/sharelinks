@@ -1,0 +1,18 @@
+{% load static %}<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<title>{% block title %}step0{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'bulma/css/bulma.min.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/fontawesome-all.min.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+	{% block content %}
+	{% endblock %}
+<script type="text/javascript">
+	{% block morejs %}{% endblock %}
+</script>
+</body>
+</html>
