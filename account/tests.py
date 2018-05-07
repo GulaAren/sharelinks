@@ -33,7 +33,7 @@ class DaftarSuccessTest(TestCase):
 			'password2': "testpass",
 		}
 		self.response = self.client.post(self.url, data)
-		self.home_url = reverse('home')
+		self.home_url = reverse('post:home')
 
 	def test_redirect(self):
 		self.assertRedirects(self.response, self.home_url)
@@ -49,7 +49,7 @@ class DaftarFailTest(TestCase):
 		self.url = reverse('daftar')
 		data = {}
 		self.response = self.client.post(self.url, data)
-		self.home_url = reverse('home')
+		self.home_url = reverse('post:home')
 
 	def test_daftar_status_code(self):
 		self.assertEquals(self.response.status_code, 200)
@@ -68,25 +68,28 @@ class LoginViewTest(TestCase):
 
 class LoginSuccessTest(TestCase):
 	def setUp(self):
-		self.url = reverse('login')
-		data = {
-			'username': "testuser",
-			'password1': "testpass",
-			'password2': "testpass",
-		}
-		url_daftar = reverse('daftar')
-		self.client.post(url_daftar, data)
-		data = {
+		User.objects.create_user(
+			username='testuser',
+			password='testpass'
+		)
+		self.home_url = reverse('post:home')
+		self.login_url = reverse('login')
+		# login
+		self.response = self.client.post(self.login_url, {
 			'username': "testuser",
 			'password': "testpass",
-		}
-		self.response = self.client.post(self.url, data)
-		self.home_url = reverse('home')
+		})
+		
+	def test_status_code(self):
+		"""
+		Must be redirected
+		"""
+		self.assertNotEqual(self.response.status_code, 200)
 
 	def test_redirect(self):
 		self.assertRedirects(self.response, self.home_url)
 
-	def test_user_logged_in(self):
+	def test_user_is_logged_in(self):
 		response = self.client.get(self.home_url)
 		user = response.context.get('user')
 		self.assertTrue(user.is_authenticated)

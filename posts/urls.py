@@ -7,5 +7,6 @@ urlpatterns = [
 	path('', views.home, name='home'),
 	path('tambah', views.tambah, name='tambah'),
 	path('vote/<int:link_id>', views.vote, name='vote'),
-	path('site/<str:site_name>', views.site_links, name='site'),
+	path('site/<str:site_name>', views.site_links, 
+		 name='site'),
 ]

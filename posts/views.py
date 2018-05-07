@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import resolve
 from urllib.parse import urlsplit
 
 from .models import Link, Site
@@ -39,6 +40,9 @@ def vote(request, link_id):
 		link.score += 1
 		link.voters.add(user)
 		link.save()
+	if request.method == 'GET':
+		if request.GET.get('next'):
+			return redirect(request.GET.get('next'))
 	return redirect('post:home')
 
 def site_links(request, site_name):

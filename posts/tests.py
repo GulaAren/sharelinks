@@ -8,7 +8,7 @@ from . import models
 
 class HomeViewTests(TestCase):
 	def test_home_view(self):
-		url = reverse('home')
+		url = reverse('post:home')
 		response = self.client.get(url)
 		self.assertEquals(response.status_code, 200)
 

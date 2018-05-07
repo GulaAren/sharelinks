@@ -1,7 +1,10 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import (
+	UserCreationForm,
+	AuthenticationForm
+)
 from django.shortcuts import render, redirect
 
 def daftar(request):
@@ -24,7 +27,7 @@ def login(request):
 							password=password)
 		auth_login(request, user)
 		if request.user.is_authenticated:
-			return redirect('home')
+			return redirect('post:home')
 
 	form = AuthenticationForm()
 	return render(request, 'login.html', {'form': form})
