@@ -27,9 +27,16 @@ def login(request):
 							password=password)
 		auth_login(request, user)
 		if request.user.is_authenticated:
+			if request.POST.get('next'):
+				return redirect(request.POST.get('next'))
 			return redirect('post:home')
 
 	form = AuthenticationForm()
+	if request.GET.get('next'):
+		return render(request, 'login.html', {
+			'form': form, 
+			'next_url': request.GET.get('next'),
+		})
 	return render(request, 'login.html', {'form': form})
 
 def logout(request):

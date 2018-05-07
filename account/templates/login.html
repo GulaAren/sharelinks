@@ -5,11 +5,15 @@
 {% block content %}
 <section class="section">
 	<div class="container">
-		{% if error %} {{ error }}{% endif %}
+		{% if error %} {{ error }} {% endif %}
 		<form method="post" action="{% url 'login' %}">
 			
 			{% csrf_token %}
 			{{ form.as_p }}
+
+			{% if next_url %}
+			<input type="hidden" name="next" value="{{ next_url }}">
+			{% endif %}
 
 			<input type="submit" class="button is-primary" value="Login" />
 		</form>

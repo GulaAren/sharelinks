@@ -23,7 +23,7 @@
         </div>
       {% else %}
         <a href="{% url 'daftar' %}" class="button is-primary navbar-item">Daftar</a>
-        <a href="{% url 'login' %}" class="button navbar-item">Login</a>
+        <a href="{% url 'login' %}?next={{ request.path }}" class="button navbar-item">Login</a>
       {% endif %}
     </div>
   </div>

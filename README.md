@@ -31,7 +31,12 @@ $ pip install -r requirements.txt
 ```
 $ python3 manage.py
 ```
-__Username__ / __password__ : __admin__ / __password0__
+
+__Username__ | __password__
+-------------|-------------
+__admin__    | __password0__
+user0        | password0
+user1        | password0
 
 ## Renew Database
 
