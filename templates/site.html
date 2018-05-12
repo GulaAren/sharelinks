@@ -8,7 +8,7 @@
 </div>
 <section class="section">
 	<div class="container">
-	{% for link in site.link_set.all %}
+	{% for link in links %}
 	<div class="columns">
 		<div class="column is-2">
 		{% if user.is_authenticated %}
@@ -28,4 +28,13 @@
 	</div>
 	{% endfor %}
 </section>
+
+
+{% if links.paginator.num_pages > 1 %}
+<section class="section">
+<div class="container">
+	{% include 'includes/links-pagination.html' %}
+</div>
+</section>
+{% endif %}
 {% endblock %}

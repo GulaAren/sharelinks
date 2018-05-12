@@ -1,12 +1,20 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import resolve
 from urllib.parse import urlsplit
 
 from .models import Link, Site
 
+NUM_PER_PAGE = 7
+
 def home(request):
-	links = Link.objects.all()
+	link_list = Link.objects.all().order_by('id')
+	paginator = Paginator(link_list, NUM_PER_PAGE)
+	
+	page = request.GET.get('page')
+	links = paginator.get_page(page)
+	
 	return render(request, 'home.html', {'links': links})
 
 @login_required
@@ -14,7 +22,7 @@ def tambah(request):
 	if request.method == 'POST':
 		if 'url' not in request.POST.keys() or \
 				'title' not in request.POST.keys():
-			return redirect('home')
+			return redirect('post:home')
 		url = request.POST['url']
 		title = request.POST['title']
 		netloc = urlsplit(url).netloc
@@ -47,4 +55,13 @@ def vote(request, link_id):
 
 def site_links(request, site_name):
 	site = Site.objects.get(domain=site_name)
-	return render(request, 'site.html', {'site': site})
+	link_list = site.link_set.all().order_by('id')
+	# Pagination
+	paginator = Paginator(link_list, NUM_PER_PAGE)
+	page  = request.GET.get('page')
+	links = paginator.get_page(page)
+	
+	return render(request, 'site.html', {
+		'site': site,
+		'links': links,
+	})

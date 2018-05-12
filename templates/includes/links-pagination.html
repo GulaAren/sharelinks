@@ -1,0 +1,42 @@
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  {% if links.has_previous %}
+  <a href="?page={{ links.previous_page_number }}" class="pagination-previous">
+    Previous
+  </a>
+  {% endif %}
+  <ul class="pagination-list">
+    <li>
+      <span class="pagination-ellipsis">&hellip;</span>
+    </li>
+    
+    {% if links.has_previous %}
+    <li>
+      <a href="?page={{ links.previous_page_number }}" class="pagination-link" aria-label="Goto page {{ links.previous_page_number }}">
+        {{ links.previous_page_number }}
+      </a>
+    </li>
+    {% endif %}
+    
+    <li>
+      <a class="pagination-link is-current" aria-label="Page {{ links.number }}" aria-current="page">{{ links.number }}</a>
+    </li>
+    
+    {% if links.has_next %}
+    <li>
+      <a href="?page={{ links.next_page_number }}" class="pagination-link" aria-label="Goto page {{ lists.next_page_number }}">
+        {{ links.next_page_number }}
+      </a>
+    </li>
+    {% endif %}
+    
+    <li>
+      <span class="pagination-ellipsis">&hellip;</span>
+    </li>
+
+  </ul>
+  {% if links.has_next %}
+  <a href="?page={{ links.next_page_number }}" class="pagination-next">
+    Next
+  </a>
+  {% endif %}
+</nav>
