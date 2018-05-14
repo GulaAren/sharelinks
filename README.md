@@ -4,8 +4,10 @@ Share links.
 
 ### Links
 
- - `/home`: recent link
- - `/<site>`: links on this site
+ - `/home`: recent links
+ - `/top` : sorted links by score
+ - `/<site>`: links on this domain
+ - `/<username>`: links created by this user
 
 ### User Priv
  
