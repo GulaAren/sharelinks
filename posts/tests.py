@@ -10,11 +10,12 @@ class HomeViewTests(TestCase):
 	def test_home_view(self):
 		url = reverse('post:home')
 		response = self.client.get(url)
+		# Link object is None
 		self.assertEquals(response.status_code, 200)
 
 	def test_home_url(self):
 		view = resolve('/')
-		self.assertEquals(view.func, views.home)
+		self.assertEquals(view.func.view_class, views.HomeView)
 
 class LinkViewTests(TestCase):
 	def setUp(self):

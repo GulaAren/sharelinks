@@ -1,6 +1,6 @@
 <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-  {% if links.has_previous %}
-  <a href="?page={{ links.previous_page_number }}" class="pagination-previous">
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">
     Previous
   </a>
   {% endif %}
@@ -9,22 +9,22 @@
       <span class="pagination-ellipsis">&hellip;</span>
     </li>
     
-    {% if links.has_previous %}
+    {% if page_obj.has_previous %}
     <li>
-      <a href="?page={{ links.previous_page_number }}" class="pagination-link" aria-label="Goto page {{ links.previous_page_number }}">
-        {{ links.previous_page_number }}
+      <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link" aria-label="Goto page {{ page_obj.previous_page_number }}">
+        {{ page_obj.previous_page_number }}
       </a>
     </li>
     {% endif %}
     
     <li>
-      <a class="pagination-link is-current" aria-label="Page {{ links.number }}" aria-current="page">{{ links.number }}</a>
+      <a class="pagination-link is-current" aria-label="Page {{ page_obj.number }}" aria-current="page">{{ page_obj.number }}</a>
     </li>
     
-    {% if links.has_next %}
+    {% if page_obj.has_next %}
     <li>
-      <a href="?page={{ links.next_page_number }}" class="pagination-link" aria-label="Goto page {{ lists.next_page_number }}">
-        {{ links.next_page_number }}
+      <a href="?page={{ page_obj.next_page_number }}" class="pagination-link" aria-label="Goto page {{ lists.next_page_number }}">
+        {{ page_obj.next_page_number }}
       </a>
     </li>
     {% endif %}
@@ -34,8 +34,8 @@
     </li>
 
   </ul>
-  {% if links.has_next %}
-  <a href="?page={{ links.next_page_number }}" class="pagination-next">
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}" class="pagination-next">
     Next
   </a>
   {% endif %}

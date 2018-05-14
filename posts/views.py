@@ -1,23 +1,40 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import resolve
-from django.views.generic.list import ListView
+from django.views import generic
 from urllib.parse import urlsplit
 
 from .models import Link, Site
 
 NUM_PER_PAGE = 7
 
-def home(request):
-	link_list = Link.objects.all().order_by('-added_time')
-	paginator = Paginator(link_list, NUM_PER_PAGE)
-	
-	page = request.GET.get('page')
-	links = paginator.get_page(page)
-	
-	return render(request, 'home.html', {'links': links})
+class HomeView(generic.ListView):
+	context_object_name = 'links'
+	paginate_by = NUM_PER_PAGE
+	model 		= Link
+	template_name = 'home.html'
+
+	def get_queryset(self):
+		return Link.objects.all().order_by('-added_time')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		return context
+
+class TopView(generic.ListView):
+	context_object_name = 'links'
+	paginate_by = NUM_PER_PAGE
+	model 		= Link
+	template_name = 'home.html'
+
+	def get_queryset(self):
+		return Link.objects.all().order_by('-score')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		return context
 
 @login_required
 def tambah(request):
@@ -69,6 +86,7 @@ def site_links(request, site_name):
 	return render(request, 'site.html', {
 		'site': site,
 		'links': links,
+		'page_obj': links
 	})
 
 
@@ -83,4 +101,5 @@ def user_links(request, username):
 	return render(request, 'user.html', {
 		'user': user,
 		'links': links,
+		'page_obj': links
 	})
