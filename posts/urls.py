@@ -9,4 +9,6 @@ urlpatterns = [
 	path('vote/<int:link_id>', views.vote, name='vote'),
 	path('site/<str:site_name>', views.site_links, 
 		 name='site'),
+	path('user/<str:username>', views.user_links, 
+		 name='user'),
 ]

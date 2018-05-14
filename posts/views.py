@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import resolve
+from django.views.generic.list import ListView
 from urllib.parse import urlsplit
 
 from .models import Link, Site
@@ -9,7 +11,7 @@ from .models import Link, Site
 NUM_PER_PAGE = 7
 
 def home(request):
-	link_list = Link.objects.all().order_by('id')
+	link_list = Link.objects.all().order_by('-added_time')
 	paginator = Paginator(link_list, NUM_PER_PAGE)
 	
 	page = request.GET.get('page')
@@ -35,8 +37,11 @@ def tambah(request):
 			except:
 				site = Site(domain=netloc)
 			site.save()
-			Link(author=request.user, content=url,
-				 title=title, site=site).save()
+			link = Link(author=request.user, content=url,
+				 title=title, site=site)
+			# Creator can't vote his/her link
+			link.voters.add(user)
+			link.save()
 
 	return redirect('post:home')
 
@@ -55,7 +60,7 @@ def vote(request, link_id):
 
 def site_links(request, site_name):
 	site = Site.objects.get(domain=site_name)
-	link_list = site.link_set.all().order_by('id')
+	link_list = site.link_set.all().order_by('-added_time')
 	# Pagination
 	paginator = Paginator(link_list, NUM_PER_PAGE)
 	page  = request.GET.get('page')
@@ -63,5 +68,19 @@ def site_links(request, site_name):
 	
 	return render(request, 'site.html', {
 		'site': site,
+		'links': links,
+	})
+
+
+def user_links(request, username):
+	user = User.objects.get(username=username)
+	link_list = user.link_set.all().order_by('-added_time')
+	# Pagination
+	paginator = Paginator(link_list, NUM_PER_PAGE)
+	page  = request.GET.get('page')
+	links = paginator.get_page(page)
+
+	return render(request, 'user.html', {
+		'user': user,
 		'links': links,
 	})

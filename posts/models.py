@@ -40,3 +40,4 @@ class Link(Base):
 	)
 	score = models.PositiveIntegerField(default=0)
 	voters = models.ManyToManyField(User, related_name="voter")
+	added_time = models.DateTimeField(auto_now=True)

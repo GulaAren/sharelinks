@@ -2,61 +2,74 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
+{% block content %} 
 <div class="container">
-	{% include 'includes/navbar.html' %}
+  {% include 'includes/navbar.html' %}
 </div>
 <section class="section">
-	<div class="container">
-	<h2 class="title">Tambah Link</h2>
-	{% if user.is_authenticated %}
-	<form method="post" action="{% url 'post:tambah' %}">
-		{% csrf_token %}
-		<div class="field">
-			<p class="control has-icons-left has-icons-right">
-				<input class="input" type="text" name="title" placeholder="Judul (Deskripsi singkat)">
-				<span class="icon is-small is-left">
-					<i class="fas fa-info"></i>
-				</span>
-			</p>
-		</div>
-		<div class="field">
-			<p class="control has-icons-left">
-				<input class="input" type="text" placeholder="Link" name="url">
-				<span class="icon is-small is-left">
-					<i class="fas fa-external-link-alt"></i>
-				</span>
-			</p>
-		</div>
-		<input class="button is-primary" type="submit" value="Tambah Link" />
-	</form>
-	<br>
-	{% endif %}
+  <div class="container">
+    <ul>
+    {% for link in links %}
+      <li class="item">
+        <p class="col">
+          <a  class='col-1' 
+          {% if user.is_authenticated %}
+          href="{% url 'post:vote' link.id %}?next={{ request.path }}"
+          {% endif %}>
+            <span class="icon is-small is-left">
+              <i class="fas fa-angle-up"></i>
+            </span> 
+          </a>
+          
+          <a class="col-2" href="{{ link.content }}">{{ link }}</a>
+        </p>
+        <p class="col">
+          <span class='col-1 col-1-bottom'>{{ link.score }}</span>
+          <small class='col-2'>
+            Added {{ link.added_time | timesince }} ago
+            {% if link.site %}
+              <em>on</em> <a href="{% url 'post:site' link.site %}">{{ link.site }}</a>
+            {% endif %}
+            {% if link.author %}
+              <em>by</em> <a href="{% url 'post:user' link.author %}">{{ link.author }}</a>
+            {% endif %}
+          </small>
+        </p>
+      </li>
+    {% endfor %}
+    </ul>
 
-
-	{% for link in links %}
-	<a href="{{ link.content }}">{{ link }}</a>
-	<br>	
-		{% if user.is_authenticated %}
-			<a href="{% url 'post:vote' link.id %}?next={{ request.path }}">{{ link.score }}</a>
-		{% else %}
-			{{ link.score }}
-		{% endif %}
-		{% if link.site %}
-			<em>on</em> <a href="{% url 'post:site' link.site %}">{{ link.site }}</a>
-		{% endif %}
-		{% if link.author %}
-			<em>by</em> <a href="#?next={{ request.path }}">{{ link.author }}</a>
-		{% endif %}
-		<br>
-	{% endfor %}
-	</div>
+    {% if user.is_authenticated %}
+    <h2 class="title">Tambah Link</h2>
+    <form method="post" action="{% url 'post:tambah' %}">
+      {% csrf_token %}
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" type="text" name="title" placeholder="Judul (Deskripsi singkat)">
+          <span class="icon is-small is-left">
+            <i class="fas fa-info"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="text" placeholder="Link" name="url">
+          <span class="icon is-small is-left">
+            <i class="fas fa-external-link-alt"></i>
+          </span>
+        </p>
+      </div>
+      <input class="button is-primary" type="submit" value="Tambah Link" />
+    </form>
+    <br>
+    {% endif %}
+  </div>
 </section>
 
 {% if links.paginator.num_pages > 1 %}
 <section class="section">
 <div class="container">
-	{% include 'includes/links-pagination.html' %}
+  {% include 'includes/links-pagination.html' %}
 </div>
 </section>
 {% endif %}

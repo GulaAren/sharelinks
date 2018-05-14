@@ -3,3 +3,22 @@
 body {
 	font-family: 'Raleway', sans-serif;
 }
+
+.item {
+	border-bottom: 1px solid #ececec;
+	margin-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+.col {
+}
+.col-1 {
+	margin: 1em;
+	text-align: center;
+}
+.col-1-bottom {
+	padding-left: .25em;
+}
+.col-2 {
+	margin: 1em;
+	word-wrap: normal;
+}

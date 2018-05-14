@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Domains: {{ site }}{% endblock %}
+{% block title %}User: {{ user }}{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -27,9 +27,7 @@
           <span class='col-1 col-1-bottom'>{{ link.score }}</span>
           <small class='col-2'>
             Added {{ link.added_time | timesince }} ago
-            {% if link.author %}
-              <em>by</em> <a href="#?next={{ request.path }}">{{ link.author }}</a>
-            {% endif %}
+            <em>on</em> <a href="{% url 'post:site' link.site %}">{{ link.site }}</a>
           </small>
         </p>
       </li>
