@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}Home{% endblock %}
 
@@ -8,39 +9,9 @@
 </div>
 <section class="section">
   <div class="container">
-    <ul>
-    {% for link in links %}
-      <li class="item">
-        <p class="col">
-          <a  class='col-1' 
-          {% if user.is_authenticated %}
-          href="{% url 'post:vote' link.id %}?next={{ request.path }}"
-          {% endif %}>
-            <span class="icon is-small is-left">
-              <i class="fas fa-angle-up"></i>
-            </span> 
-          </a>
-          
-          <a class="col-2" href="{{ link.content }}">{{ link }}</a>
-        </p>
-        <p class="col">
-          <span class='col-1 col-1-bottom'>{{ link.score }}</span>
-          <small class='col-2'>
-            Added {{ link.added_time | timesince }} ago
-            {% if link.site %}
-              <em>on</em> <a href="{% url 'post:site' link.site %}">{{ link.site }}</a>
-            {% endif %}
-            {% if link.author %}
-              <em>by</em> <a href="{% url 'post:user' link.author %}">{{ link.author }}</a>
-            {% endif %}
-          </small>
-        </p>
-      </li>
-    {% endfor %}
-    </ul>
-
+    <!-- link input form -->
     {% if user.is_authenticated %}
-    <h2 class="title">Tambah Link</h2>
+    <h2 class="title">{% trans "Add Link" %}</h2>
     <form method="post" action="{% url 'post:tambah' %}">
       {% csrf_token %}
       <div class="field">
@@ -63,6 +34,37 @@
     </form>
     <br>
     {% endif %}
+
+    <ul>
+    {% for link in links %}
+      <li class="item">
+        <p class="col">
+          <a  class='col-1' 
+          {% if user.is_authenticated %}
+          href="{% url 'post:vote' link.id %}?next={{ request.path }}"
+          {% endif %}>
+            <span class="icon is-small is-left">
+              <i class="fas fa-angle-up"></i>
+            </span> 
+          </a>
+          
+          <a class="col-2" href="{{ link.content }}">{{ link }}</a>
+        </p>
+        <p class="col">
+          <span class='col-1 col-1-bottom'>{{ link.score }}</span>
+          <small class='col-2'>
+            {% trans "Added " %} {{ link.added_time | timesince }} {% trans "ago" %}
+            {% if link.site %}
+              <em>{% trans "on" %}</em> <a href="{% url 'post:site' link.site %}">{{ link.site }}</a>
+            {% endif %}
+            {% if link.author %}
+              <em>{% trans "by" %}</em> <a href="{% url 'post:user' link.author %}">{{ link.author }}</a>
+            {% endif %}
+          </small>
+        </p>
+      </li>
+    {% endfor %}
+    </ul>
   </div>
 </section>
 

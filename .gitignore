@@ -92,3 +92,5 @@ ENV/
 NOTE
 note
 *.note
+db.sqlite3
+*.sqlite3
